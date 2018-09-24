@@ -5,10 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StandardShopItem extends ShopItem {
-
-    @XmlElement
-    @JsonProperty
-    private String itemSku;
+    public static final int SHIPPING_PRICE_PER_KG = 2;
 
     @XmlElement
     @JsonProperty
@@ -31,13 +28,10 @@ public class StandardShopItem extends ShopItem {
     // Ne pas enlever @JsonProperty, ceci sert pour le panneau d'admin où on saisit les items
     private double profitMarginPercentage;
 
-    private StandardShopItem() {
-        // JAXB
-    }
-
-    public StandardShopItem(String itemSku, String name, int price, int weight, double profitMarginPercentage,
-            boolean available) {
-        this.itemSku = itemSku;
+    public StandardShopItem(String itemSku, String name, int price, int weight, double
+            profitMarginPercentage,
+                            boolean available) {
+        super(itemSku);
         this.name = name;
         this.price = price;
         this.weight = weight;
@@ -56,11 +50,6 @@ public class StandardShopItem extends ShopItem {
     }
 
     @Override
-    public boolean hasSku(String sku) {
-        return this.itemSku.equals(sku);
-    }
-
-    @Override
     public int getPrice() {
         return price;
     }
@@ -71,7 +60,12 @@ public class StandardShopItem extends ShopItem {
     }
 
     @Override
-    public boolean isPrime() {
-        return false;
+    public int getShippingPrice() {
+        return getWeight() * SHIPPING_PRICE_PER_KG;
+    }
+
+    @Override
+    public int getTotalPrice() {
+        return getShippingPrice();
     }
 }

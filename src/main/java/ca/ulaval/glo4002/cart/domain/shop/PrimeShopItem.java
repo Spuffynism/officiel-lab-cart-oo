@@ -5,10 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PrimeShopItem extends ShopItem {
-
-    @XmlElement
-    @JsonProperty
-    private String itemSku;
+    public static final int SHIPPING_PRICE_PER_KG = 0;
 
     @XmlElement
     @JsonProperty
@@ -35,9 +32,10 @@ public class PrimeShopItem extends ShopItem {
         // JAXB
     }
 
-    public PrimeShopItem(String itemSku, String name, int price, int weight, double profitMarginPercentage,
-            boolean available) {
-        this.itemSku = itemSku;
+    public PrimeShopItem(String sku, String name, int price, int weight, double
+            profitMarginPercentage,
+                         boolean available) {
+        this.sku = sku;
         this.name = name;
         this.price = price;
         this.weight = weight;
@@ -56,11 +54,6 @@ public class PrimeShopItem extends ShopItem {
     }
 
     @Override
-    public boolean hasSku(String sku) {
-        return this.itemSku.equals(sku);
-    }
-
-    @Override
     public int getPrice() {
         return price;
     }
@@ -71,7 +64,12 @@ public class PrimeShopItem extends ShopItem {
     }
 
     @Override
-    public boolean isPrime() {
-        return true;
+    public int getShippingPrice() {
+        return SHIPPING_PRICE_PER_KG;
+    }
+
+    @Override
+    public int getTotalPrice() {
+        return getShippingPrice();
     }
 }

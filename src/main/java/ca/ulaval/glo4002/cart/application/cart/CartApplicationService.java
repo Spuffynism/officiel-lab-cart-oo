@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.cart.domain.shop.ShopItem;
 
 public class CartApplicationService {
 
-    public static final int SHIPPING_PRICE_PER_KG = 2;
     private CartRepository cartRepository;
 
 	public CartApplicationService() {
@@ -33,13 +32,8 @@ public class CartApplicationService {
 	}
 
     private int getItemPriceWithShipping(ShopItem item) {
-        int totalPrice = item.getPrice();
 
-        if (!item.isPrime()) {
-            totalPrice += item.getWeight() * SHIPPING_PRICE_PER_KG;
-        }
-
-        return totalPrice;
+        return item.getPrice() + item.getShippingPrice();
     }
 
     private Cart getCartByOwner(String email, List<Cart> carts) {
